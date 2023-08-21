@@ -21,10 +21,22 @@ class Board {
         }
     }
 
+    public void flagCell(int row, int col) {
+        if (board.get(row).get(col).equals("?")) {
+            board.get(row).set(col, "F");
+        } else if (board.get(row).get(col).equals("F")) {
+            board.get(row).set(col, "?");
+        }
+    }
+
+    public boolean isFlagged(int row, int col) {
+        return "F".equals(board.get(row).get(col));
+    }
+
+
     public boolean isMine(int row, int col) {
         return "*".equals(board.get(row).get(col));
     }
-
 
     public void placeMine(int row, int col) {
         board.get(row).set(col, "*");
@@ -54,8 +66,8 @@ class Board {
                 System.out.print(" ");
             }
             for (int j = 0; j < board.get(i).size(); j++) {
-                if ("9".equals(board.get(i).get(j)) || "0".equals(board.get(i).get(j))) {
-                    System.out.print(board.get(i).get(j) + "  "); // Adjusted this line
+                if ("9".equals(board.get(i).get(j))) {
+                    System.out.print("   ");
                 } else {
                     System.out.print(board.get(i).get(j) + "  ");
                 }
@@ -63,7 +75,6 @@ class Board {
             System.out.println();
         }
     }
-
 
     public int getSize() {
         return board.size();
