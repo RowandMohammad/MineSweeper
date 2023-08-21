@@ -24,4 +24,41 @@ class Board {
     public int getSize() {
         return board.size();
     }
+
+    public boolean isMine(int row, int col) {
+        return "*".equals(board.get(row).get(col));
+    }
+
+    public void placeMine(int row, int col) {
+        board.get(row).set(col, "*");
+    }
+
+    public void printBoard() {
+        System.out.println();
+        System.out.print("   ");
+        for (int i = 0; i < board.size(); i++) {
+            if (i < 10) {
+                System.out.print(" ");
+            }
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        for (int i = 0; i < board.size(); i++) {
+            System.out.print(i + "  ");
+            if (i < 10) {
+                System.out.print(" ");
+            }
+            for (int j = 0; j < board.get(i).size(); j++) {
+                if ("9".equals(board.get(i).get(j))) {
+                    System.out.print("   ");
+                } else {
+                    System.out.print(board.get(i).get(j) + "  ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    }
+
 }
