@@ -1,0 +1,8 @@
+Mine#getRandomMines(IIII)V
+java.util.ArrayList#<init>()V
+java.util.Random#instance-init#
+java.util.ArrayList#instance-init#
+java.util.Random#<init>()V
+java.lang.Math#abs(I)I
+==
+canPlaceMine Mine#canPlaceMine(IIII)Z

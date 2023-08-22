@@ -1,0 +1,4 @@
+Game#expand(II)V
+java.lang.String#equals(Ljava/lang/Object;)Z
+Game#expand(II)V
+Game#isValid(II)Z
