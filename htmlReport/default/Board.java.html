@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Board.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jacoco.exec</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Board.java</span></div><h1>Board.java</h1><pre class="source lang-java linenums">import java.util.ArrayList;
+
+class Board {
+    private ArrayList&lt;ArrayList&lt;String&gt;&gt; board;
+    private static final String ANSI_RESET = &quot;\u001B[0m&quot;;
+    private static final String ANSI_BLACK = &quot;\u001B[30m&quot;;
+    private static final String ANSI_RED = &quot;\u001B[31m&quot;;
+    private static final String ANSI_GREEN = &quot;\u001B[32m&quot;;
+    private static final String ANSI_YELLOW = &quot;\u001B[33m&quot;;
+    private static final String ANSI_BLUE = &quot;\u001B[34m&quot;;
+    private static final String ANSI_PURPLE = &quot;\u001B[35m&quot;;
+    private static final String ANSI_CYAN = &quot;\u001B[36m&quot;;
+    private static final String ANSI_WHITE = &quot;\u001B[37m&quot;;
+
+
+<span class="fc" id="L16">    Board(int sides) {</span>
+<span class="fc" id="L17">        board = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        for (int i = 0; i &lt; sides; i++) {</span>
+<span class="fc" id="L19">            board.add(new ArrayList&lt;&gt;());</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">            for (int j = 0; j &lt; sides; j++) {</span>
+<span class="fc" id="L21">                board.get(i).add(&quot;?&quot;);</span>
+            }
+        }
+<span class="fc" id="L24">    }</span>
+
+    public void initialize() {
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        for (int i = 0; i &lt; board.size(); i++) {</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">            for (int j = 0; j &lt; board.get(i).size(); j++) {</span>
+<span class="nc" id="L29">                board.get(i).set(j, &quot;?&quot;);</span>
+            }
+        }
+<span class="nc" id="L32">    }</span>
+
+    public void flagCell(int row, int col) {
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if (isValid(row, col)) {</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            if (board.get(row).get(col).equals(&quot;?&quot;)) {</span>
+<span class="fc" id="L37">                board.get(row).set(col, &quot;F&quot;);</span>
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">            } else if (board.get(row).get(col).equals(&quot;F&quot;)) {</span>
+<span class="fc" id="L39">                board.get(row).set(col, &quot;?&quot;);</span>
+            }
+        } else {
+<span class="nc" id="L42">            System.out.println(&quot;Invalid coordinates! Can't flag this cell.&quot;);</span>
+        }
+<span class="fc" id="L44">    }</span>
+
+    // Add this method to the Board class for bounds checking.
+    private boolean isValid(int row, int col) {
+<span class="pc bpc" id="L48" title="4 of 8 branches missed.">        return row &gt;= 0 &amp;&amp; row &lt; board.size() &amp;&amp; col &gt;= 0 &amp;&amp; col &lt; board.get(0).size();</span>
+    }
+
+
+    public boolean isFlagged(int row, int col) {
+<span class="fc" id="L53">        return &quot;F&quot;.equals(board.get(row).get(col));</span>
+    }
+
+
+    public boolean isMine(int row, int col) {
+<span class="fc" id="L58">        return &quot;*&quot;.equals(board.get(row).get(col));</span>
+    }
+
+    public void placeMine(int row, int col) {
+<span class="fc" id="L62">        board.get(row).set(col, &quot;*&quot;);</span>
+<span class="fc" id="L63">    }</span>
+
+    public void setCell(int row, int col, String value) {
+<span class="fc" id="L66">        board.get(row).set(col, value);</span>
+<span class="fc" id="L67">    }</span>
+
+    public String getCell(int row, int col) {
+<span class="fc" id="L70">        return board.get(row).get(col);</span>
+    }
+
+    public void printBoard() {
+<span class="nc" id="L74">        System.out.println();</span>
+
+        // Print header with column numbers
+<span class="nc" id="L77">        System.out.print(&quot;    &quot;); // Initial spacing to align with row numbers</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        for (int i = 0; i &lt; board.size(); i++) {</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">            if (i &lt; 10) {</span>
+<span class="nc" id="L80">                System.out.print(ANSI_CYAN + &quot; &quot; + i + &quot; &quot; + ANSI_RESET);</span>
+            } else {
+<span class="nc" id="L82">                System.out.print(ANSI_CYAN + i + &quot; &quot; + ANSI_RESET);</span>
+            }
+        }
+<span class="nc" id="L85">        System.out.println();</span>
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        for (int i = 0; i &lt; board.size(); i++) {</span>
+            // Print row number with proper spacing
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (i &lt; 10) {</span>
+<span class="nc" id="L90">                System.out.print(ANSI_CYAN + i + &quot;   &quot; + ANSI_RESET);</span>
+            } else {
+<span class="nc" id="L92">                System.out.print(ANSI_CYAN + i + &quot;  &quot; + ANSI_RESET);</span>
+            }
+<span class="nc bnc" id="L94" title="All 2 branches missed.">            for (int j = 0; j &lt; board.get(i).size(); j++) {</span>
+<span class="nc" id="L95">                String cellValue = board.get(i).get(j);</span>
+<span class="nc" id="L96">                System.out.print(&quot;|&quot;);  // this creates the grid effect</span>
+<span class="nc bnc" id="L97" title="All 7 branches missed.">                switch (cellValue) {</span>
+                    case &quot;1&quot;:
+<span class="nc" id="L99">                        System.out.print(ANSI_BLUE + cellValue + &quot; &quot; + ANSI_RESET);</span>
+<span class="nc" id="L100">                        break;</span>
+                    case &quot;2&quot;:
+<span class="nc" id="L102">                        System.out.print(ANSI_GREEN + cellValue + &quot; &quot; + ANSI_RESET);</span>
+<span class="nc" id="L103">                        break;</span>
+                    case &quot;3&quot;:
+<span class="nc" id="L105">                        System.out.print(ANSI_YELLOW + cellValue + &quot; &quot; + ANSI_RESET);</span>
+<span class="nc" id="L106">                        break;</span>
+                    case &quot;4&quot;:
+                    case &quot;5&quot;:
+                    case &quot;6&quot;:
+<span class="nc" id="L110">                        System.out.print(ANSI_RED + cellValue + &quot; &quot; + ANSI_RESET);</span>
+<span class="nc" id="L111">                        break;</span>
+                    case &quot;F&quot;:
+<span class="nc" id="L113">                        System.out.print(ANSI_PURPLE + cellValue + &quot; &quot; + ANSI_RESET);</span>
+<span class="nc" id="L114">                        break;</span>
+                    case &quot;*&quot;:
+<span class="nc" id="L116">                        System.out.print(ANSI_BLACK + cellValue + &quot; &quot; + ANSI_RESET);</span>
+<span class="nc" id="L117">                        break;</span>
+                    default:
+<span class="nc" id="L119">                        System.out.print(cellValue + &quot; &quot;);</span>
+                }
+            }
+<span class="nc" id="L122">            System.out.println(&quot;|&quot;);  // this creates the grid effect for the last cell</span>
+        }
+<span class="nc" id="L124">    }</span>
+
+
+
+
+    public int getSize() {
+<span class="fc" id="L130">        return board.size();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
