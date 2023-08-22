@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        Game game = new Game();
-        game.playMineSweeper();
+        Game minesweeper = new Game();
+        minesweeper.playMineSweeper();
     }
 }
