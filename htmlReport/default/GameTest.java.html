@@ -57,6 +57,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 <span class="fc" id="L57">        assertEquals(9, boardSize);  // Should eventually choose Easy mode with a board size of 9.</span>
 <span class="fc" id="L58">    }</span>
 
+    @Test
+    public void testInvalidChoiceThenMedium() {
+<span class="fc" id="L62">        String input = &quot;3\n1\n&quot;;  // Simulate user entering &quot;3&quot; (invalid) followed by &quot;0&quot; for Easy mode.</span>
+<span class="fc" id="L63">        InputStream in = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));</span>
+<span class="fc" id="L64">        System.setIn(in);</span>
+
+<span class="fc" id="L66">        Game game = new Game();</span>
+<span class="fc" id="L67">        int boardSize = game.getUserBoard().getSize();</span>
+
+<span class="fc" id="L69">        assertEquals(16, boardSize);  // Should eventually choose Easy mode with a board size of 9.</span>
+<span class="fc" id="L70">    }</span>
+
 
 
 }
