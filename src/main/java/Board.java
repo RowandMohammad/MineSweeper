@@ -103,9 +103,7 @@ class Board {
                     case "3":
                         System.err.print(ANSI_YELLOW + cellValue + " " + ANSI_RESET);
                         break;
-                    case "4":
-                    case "5":
-                    case "6":
+                    case "4", "5", "6":
                         System.err.print(ANSI_RED + cellValue + " " + ANSI_RESET);
                         break;
                     case "F":

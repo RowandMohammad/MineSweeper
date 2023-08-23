@@ -103,30 +103,28 @@ class Board {
                     case &quot;3&quot;:
 <span class="nc" id="L104">                        System.err.print(ANSI_YELLOW + cellValue + &quot; &quot; + ANSI_RESET);</span>
 <span class="nc" id="L105">                        break;</span>
-                    case &quot;4&quot;:
-                    case &quot;5&quot;:
-                    case &quot;6&quot;:
-<span class="nc" id="L109">                        System.err.print(ANSI_RED + cellValue + &quot; &quot; + ANSI_RESET);</span>
-<span class="nc" id="L110">                        break;</span>
+                    case &quot;4&quot;, &quot;5&quot;, &quot;6&quot;:
+<span class="nc" id="L107">                        System.err.print(ANSI_RED + cellValue + &quot; &quot; + ANSI_RESET);</span>
+<span class="nc" id="L108">                        break;</span>
                     case &quot;F&quot;:
-<span class="nc" id="L112">                        System.err.print(ANSI_PURPLE + cellValue + &quot; &quot; + ANSI_RESET);</span>
-<span class="nc" id="L113">                        break;</span>
+<span class="nc" id="L110">                        System.err.print(ANSI_PURPLE + cellValue + &quot; &quot; + ANSI_RESET);</span>
+<span class="nc" id="L111">                        break;</span>
                     case &quot;*&quot;:
-<span class="nc" id="L115">                        System.err.print(ANSI_BLACK + cellValue + &quot; &quot; + ANSI_RESET);</span>
-<span class="nc" id="L116">                        break;</span>
+<span class="nc" id="L113">                        System.err.print(ANSI_BLACK + cellValue + &quot; &quot; + ANSI_RESET);</span>
+<span class="nc" id="L114">                        break;</span>
                     default:
-<span class="nc" id="L118">                        System.err.print(cellValue + &quot; &quot;);</span>
+<span class="nc" id="L116">                        System.err.print(cellValue + &quot; &quot;);</span>
                 }
             }
-<span class="nc" id="L121">            System.err.println(&quot;|&quot;);  // this creates the grid effect for the last cell</span>
+<span class="nc" id="L119">            System.err.println(&quot;|&quot;);  // this creates the grid effect for the last cell</span>
         }
-<span class="nc" id="L123">    }</span>
+<span class="nc" id="L121">    }</span>
 
 
 
 
     public int getSize() {
-<span class="fc" id="L129">        return board.size();</span>
+<span class="fc" id="L127">        return board.size();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

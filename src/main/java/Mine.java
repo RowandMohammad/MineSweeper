@@ -16,9 +16,8 @@ class Mine {
             minesLocation.add(new ArrayList<>());
         }
         int i = 0;
-        Random rn = new Random();
         while (i < mines) {
-            int random = Math.abs(rn.nextInt()) % (sides * sides);
+            int random = Math.abs(new Random().nextInt()) % (sides * sides);
             int x = (random / sides) % sides;
             int y = random % sides;
             if (!mark[random] && canPlaceMine(x, y, safeX, safeY)) {
