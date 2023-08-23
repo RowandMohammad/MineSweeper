@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -19,7 +22,7 @@ class MineTest {
     @DisplayName("Testing where I placed a mine")
     void testIsMineAt() {
         Mine mine = new Mine(5, 5, 2, 2);
-        ArrayList<ArrayList<Integer>> mineLocations = mine.getMinesLocation();
+        List<ArrayList<Integer>> mineLocations = mine.getMinesLocation();
         int x = mineLocations.get(0).get(0);
         int y = mineLocations.get(0).get(1);
         assertTrue(mine.isMineAt(x, y));

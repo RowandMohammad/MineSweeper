@@ -1,72 +1,36 @@
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GameTest {
 
-    @Test
-    public void testChooseModeEasy() {
-        String input = "0\n";  // Simulate user entering "0" for Easy mode.
-        InputStream in = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-        System.setIn(in);  // Redirect System.in to use our input stream.
-
-        Game game = new Game();
-        int boardSize = game.getUserBoard().getSize();  // Here, we assume you've added a getUserBoard() method to expose userBoard.
-
-        assertEquals(9, boardSize);  // Easy mode should have a board size of 9.
-    }
-
-    @Test
-    public void testChooseModeMedium() {
-        String input = "1\n";  // Simulate user entering "1" for Medium mode.
+    @ParameterizedTest
+    @MethodSource("gameModeProvider")
+    void testChooseMode(String input, int expectedSize) {
         InputStream in = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
         System.setIn(in);
 
         Game game = new Game();
         int boardSize = game.getUserBoard().getSize();
 
-        assertEquals(16, boardSize);  // Medium mode should have a board size of 16.
+        assertEquals(expectedSize, boardSize);
     }
 
-
-    @Test
-    public void testChooseModeHard() {
-        String input = "2\n";  // Simulate user entering "2" for Hard mode.
-        InputStream in = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-        System.setIn(in);
-
-        Game game = new Game();
-        int boardSize = game.getUserBoard().getSize();
-
-        assertEquals(24, boardSize);  // Hard mode should have a board size of 25.
-    }
-
-    @Test
-    public void testInvalidChoiceThenEasy() {
-        String input = "3\n0\n";  // Simulate user entering "3" (invalid) followed by "0" for Easy mode.
-        InputStream in = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-        System.setIn(in);
-
-        Game game = new Game();
-        int boardSize = game.getUserBoard().getSize();
-
-        assertEquals(9, boardSize);  // Should eventually choose Easy mode with a board size of 9.
-    }
-
-    @Test
-    public void testInvalidChoiceThenMedium() {
-        String input = "3\n1\n";  // Simulate user entering "3" (invalid) followed by "0" for Easy mode.
-        InputStream in = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-        System.setIn(in);
-
-        Game game = new Game();
-        int boardSize = game.getUserBoard().getSize();
-
-        assertEquals(16, boardSize);  // Should eventually choose Easy mode with a board size of 9.
+    private static Stream<Arguments> gameModeProvider() {
+        return Stream.of(
+                Arguments.of("0\n", 9), // Easy mode.
+                Arguments.of("1\n", 16), // Medium mode.
+                Arguments.of("2\n", 24), // Hard mode.
+                Arguments.of("3\n0\n", 9), // Invalid choice then Easy mode.
+                Arguments.of("3\n1\n", 16) // Invalid choice then Medium mode.
+        );
     }
 
 
