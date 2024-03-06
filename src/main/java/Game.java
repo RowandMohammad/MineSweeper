@@ -6,28 +6,28 @@ class Game {
     private Board userBoard;
     private Board realBoard;
     private Mine mineManager;
-    private int SIDES;
-    private int MINES;
+    private int sides;
+    private int mines;
     private int movesLeft;
     private boolean isFirstMove = true;
     private Scanner in = new Scanner(System.in);
 
     Game() {
         chooseMode();
-        userBoard = new Board(SIDES);
-        realBoard = new Board(SIDES);
-        movesLeft = SIDES * SIDES;
+        userBoard = new Board(sides);
+        realBoard = new Board(sides);
+        movesLeft = sides * sides;
     }
 
     private void initializeRealBoard(int safeX, int safeY) {
-        mineManager = new Mine(SIDES, MINES, safeX, safeY);  // pass the safe spot
+        mineManager = new Mine(sides, mines, safeX, safeY);  // pass the safe spot
         for (ArrayList<Integer> mineLocation : mineManager.getMinesLocation()) {
             realBoard.placeMine(mineLocation.get(0), mineLocation.get(1));
         }
     }
 
     private boolean isValid(int row, int col) {
-        return row >= 0 && row < SIDES && col >= 0 && col < SIDES;
+        return row >= 0 && row < sides && col >= 0 && col < sides;
     }
 
     private void expand(int row, int col) {
@@ -53,8 +53,8 @@ class Game {
     }
 
     private void placeCounts() {
-        for (int i = 0; i < SIDES; i++) {
-            for (int j = 0; j < SIDES; j++) {
+        for (int i = 0; i < sides; i++) {
+            for (int j = 0; j < sides; j++) {
                 if (!realBoard.isMine(i, j)) {
                     int count = mineManager.getAdjacentMinesCount(i, j);
                     realBoard.setCell(i, j, Integer.toString(count));
@@ -64,29 +64,29 @@ class Game {
     }
 
     private void chooseMode() {
-        System.out.println("Welcome to Minesweeper Game");
-        System.out.println("Select Mode");
-        System.out.println("0 - Easy");
-        System.out.println("1 - Medium");
-        System.out.println("2 - Hard");
+        System.err.println("Welcome to Minesweeper Game");
+        System.err.println("Select Mode");
+        System.err.println("0 - Easy");
+        System.err.println("1 - Medium");
+        System.err.println("2 - Hard");
 
         while (true) {
             String input = in.nextLine(); // Read the whole line
             switch (input.trim()) {
                 case "1":
-                    SIDES = 16;
-                    MINES = 40;
+                    sides = 16;
+                    mines = 40;
                     return; // exit the loop
                 case "2":
-                    SIDES = 24;
-                    MINES = 99;
+                    sides = 24;
+                    mines = 99;
                     return; // exit the loop
                 case "0":
-                    SIDES = 9;
-                    MINES = 10;
+                    sides = 9;
+                    mines = 10;
                     return; // exit the loop
                 default:
-                    System.out.println("Invalid choice. Please select 0, 1, or 2.");
+                    System.err.println("Invalid choice. Please select 0, 1, or 2.");
             }
         }
     }
@@ -104,81 +104,106 @@ class Game {
 
 
 
+    private boolean checkWinCondition() {
+        if (movesLeft == mines && allMinesFlagged()) {
+            userBoard.printBoard();
+            System.err.println("You Won!!!");
+            return true;
+        }
+        return false;
+    }
+
+    private void displayMovesLeftAndBoard() {
+        System.err.println("Moves left:" + (movesLeft - mines));
+        userBoard.printBoard();
+    }
+
+    private int promptActionChoice() {
+        int action;
+        do {
+            System.err.println("Choose action:");
+            System.err.println("1 - Reveal");
+            System.err.println("2 - Flag/Unflag");
+            try {
+                action = in.nextInt();
+                if (action != 1 && action != 2) {
+                    System.err.println("Please select a valid action (1 or 2).");
+                }
+            } catch (InputMismatchException e) {
+                System.err.println("Invalid input! Please select 1 or 2.");
+                in.next();
+                action = -1;
+            }
+        } while (action != 1 && action != 2);
+        return action;
+    }
+
+    private int[] promptMoveCoordinates() {
+        int x, y;
+        while (true) {
+            try {
+                System.out.println("Enter your move (row col):");
+                x = in.nextInt();
+                y = in.nextInt();
+                if (isValid(x, y)) {
+                    return new int[]{x, y};
+                } else {
+                    System.err.println("Invalid move! Coordinates out of bounds. Try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.err.println("Invalid move! Please enter numeric row and col values.");
+                in.next();
+            }
+        }
+    }
+
+    private void handleActionOnCell(int action, int[] move) {
+        if (action == 2) {
+            userBoard.flagCell(move[0], move[1]);
+            return;
+        }
+
+        if (userBoard.isFlagged(move[0], move[1])) {
+            System.err.println("Cell is flagged! Unflag it first to reveal.");
+            return;
+        }
+
+        if (isFirstMove) {
+            isFirstMove = false;
+            initializeRealBoard(move[0], move[1]);
+            placeCounts();
+        }
+    }
+
+    private boolean processCellReveal(int x, int y) {
+        if (userBoard.getCell(x, y).equals("?")) {
+            if (realBoard.isMine(x, y)) {
+                userBoard.printBoard();
+                System.out.println("Oops! You stepped on a mine! Game Over.");
+                return true;
+            } else {
+                expand(x, y);
+            }
+        }
+        return false;
+    }
+
     public void playMineSweeper() {
         boolean gameOver = false;
 
         while (!gameOver) {
-            if (movesLeft == MINES && allMinesFlagged() && !gameOver) {
-                userBoard.printBoard();
-                System.out.println("You Won!!!");
+            if (checkWinCondition()) {
                 break;
             }
 
-            System.out.println("Moves left:" + (movesLeft - MINES));
-            userBoard.printBoard();
+            displayMovesLeftAndBoard();
 
-            int action = -1;
-            do {
-                try {
-                    System.out.println("Choose action:");
-                    System.out.println("1 - Reveal");
-                    System.out.println("2 - Flag/Unflag");
-                    action = in.nextInt();
+            int action = promptActionChoice();
+            int[] move = promptMoveCoordinates();
 
-                    if(action != 1 && action != 2) {
-                        System.out.println("Please select a valid action (1 or 2).");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input! Please select 1 or 2.");
-                    in.next(); // Clear the invalid input
-                }
-            } while (action != 1 && action != 2);
+            handleActionOnCell(action, move);
 
-            int myX = -1, myY = -1;
-            boolean validMove = false;
-            while (!validMove) {
-                try {
-                    System.out.println("Enter your move (row col):");
-                    myX = in.nextInt();
-                    myY = in.nextInt();
-
-                    if (isValid(myX, myY)) {
-                        validMove = true;
-                    } else {
-                        System.out.println("Invalid move! Coordinates out of bounds. Try again.");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid move! Please enter numeric row and col values.");
-                    in.next(); // Clear the invalid input
-                }
-            }
-
-            if (action == 2) {
-                userBoard.flagCell(myX, myY);
-                continue;
-            }
-
-            if (userBoard.isFlagged(myX, myY)) {
-                System.out.println("Cell is flagged! Unflag it first to reveal.");
-                continue;
-            }
-
-            if (isFirstMove) {
-                isFirstMove = false;
-                // Initialize the board using myX and myY as the safe spot
-                initializeRealBoard(myX, myY);
-                placeCounts();
-            }
-
-            if (userBoard.getCell(myX, myY).equals("?")) {
-                if (realBoard.isMine(myX, myY)) {
-                    userBoard.printBoard();
-                    System.out.println("Oops! You stepped on a mine! Game Over.");
-                    gameOver = true;  // Add this to signify the game has ended after hitting a mine.
-                } else {
-                    expand(myX, myY);
-                }
-            }
+            gameOver = processCellReveal(move[0], move[1]);
         }
     }
 
@@ -186,4 +211,17 @@ class Game {
     public Board getUserBoard() {
         return userBoard;
     }
+
+    public Board getRealBoard() {
+        return realBoard;
+    }
 }
+
+
+
+
+
+
+
+
+

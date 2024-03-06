@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 class Mine {
@@ -54,7 +55,7 @@ class Mine {
         return count;
     }
 
-    public ArrayList<ArrayList<Integer>> getMinesLocation() {
+    public List<ArrayList<Integer>> getMinesLocation() {
         return minesLocation;
     }
 
