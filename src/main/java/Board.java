@@ -21,16 +21,21 @@ class Board {
         }
     }
 
-    public int getSize() {
-        return board.size();
-    }
-
     public boolean isMine(int row, int col) {
         return "*".equals(board.get(row).get(col));
     }
 
+
     public void placeMine(int row, int col) {
         board.get(row).set(col, "*");
+    }
+
+    public void setCell(int row, int col, String value) {
+        board.get(row).set(col, value);
+    }
+
+    public String getCell(int row, int col) {
+        return board.get(row).get(col);
     }
 
     public void printBoard() {
@@ -59,6 +64,7 @@ class Board {
         }
     }
 
+    public int getSize() {
+        return board.size();
     }
-
 }

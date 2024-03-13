@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 class Game {
@@ -32,6 +33,29 @@ class Game {
             default:
                 SIDES = 9;
                 MINES = 10;
+        }
+    }
+
+    private void initializeRealBoard() {
+        for (ArrayList<Integer> mineLocation : mineManager.getMinesLocation()) {
+            realBoard.placeMine(mineLocation.get(0), mineLocation.get(1));
+        }
+    }
+
+    private boolean isValid(int row, int col) {
+        return row >= 0 && row < SIDES && col >= 0 && col < SIDES;
+    }
+
+
+
+    private void placeCounts() {
+        for (int i = 0; i < SIDES; i++) {
+            for (int j = 0; j < SIDES; j++) {
+                if (!realBoard.isMine(i, j)) {
+                    int count = mineManager.getAdjacentMinesCount(i, j);
+                    realBoard.setCell(i, j, Integer.toString(count));
+                }
+            }
         }
     }
 }
