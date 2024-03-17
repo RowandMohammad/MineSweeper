@@ -54,8 +54,8 @@ class Board {
                 System.out.print(" ");
             }
             for (int j = 0; j < board.get(i).size(); j++) {
-                if ("9".equals(board.get(i).get(j))) {
-                    System.out.print("   ");
+                if ("9".equals(board.get(i).get(j)) || "0".equals(board.get(i).get(j))) {
+                    System.out.print(board.get(i).get(j) + "  "); // Adjusted this line
                 } else {
                     System.out.print(board.get(i).get(j) + "  ");
                 }
@@ -63,6 +63,7 @@ class Board {
             System.out.println();
         }
     }
+
 
     public int getSize() {
         return board.size();

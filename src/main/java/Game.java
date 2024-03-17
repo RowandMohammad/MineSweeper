@@ -41,7 +41,7 @@ class Game {
         if (!data.equals("0")) {
             userBoard.setCell(row, col, data);
         } else {
-            userBoard.setCell(row, col, " ");
+            userBoard.setCell(row, col, "0"); // Adjusted this line
             for (int r = row - 1; r <= row + 1; r++) {
                 for (int c = col - 1; c <= col + 1; c++) {
                     if (r != row || c != col) {
@@ -51,6 +51,8 @@ class Game {
             }
         }
     }
+
+
 
     private void placeCounts() {
         for (int i = 0; i < SIDES; i++) {
@@ -86,6 +88,8 @@ class Game {
         }
     }
 
+    private boolean isFirstMove = true;
+
     public void playMineSweeper() {
         boolean gameOver = false;
         while (!gameOver) {
@@ -102,6 +106,15 @@ class Game {
             int myY = in.nextInt();
 
             if (userBoard.getCell(myX, myY).equals("?")) {
+                if (isFirstMove) {
+                    while (realBoard.isMine(myX, myY)) {
+                        mineManager = new Mine(SIDES, MINES);
+                        initializeRealBoard();
+                        placeCounts();
+                    }
+                    isFirstMove = false;
+                }
+
                 if (realBoard.isMine(myX, myY)) {
                     gameOver = true;
                     System.out.println("***Mines***");
@@ -119,4 +132,5 @@ class Game {
             }
         }
     }
+
 }
