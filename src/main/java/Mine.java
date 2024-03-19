@@ -4,12 +4,12 @@ import java.util.Random;
 class Mine {
     private ArrayList<ArrayList<Integer>> minesLocation;
 
-    Mine(int sides, int mines) {
+    Mine(int sides, int mines, int safeX, int safeY) {
         minesLocation = new ArrayList<>();
-        getRandomMines(sides, mines);
+        getRandomMines(sides, mines, safeX, safeY);
     }
 
-    private void getRandomMines(int sides, int mines) {
+    private void getRandomMines(int sides, int mines, int safeX, int safeY) {
         boolean[] mark = new boolean[sides * sides];
         for (int j = 0; j < mines; j++) {
             minesLocation.add(new ArrayList<Integer>());
@@ -20,7 +20,7 @@ class Mine {
             int random = Math.abs(rn.nextInt()) % (sides * sides);
             int x = (random / sides) % sides;
             int y = random % sides;
-            if (mark[random] == false) {
+            if (mark[random] == false && canPlaceMine(x, y, safeX, safeY)) {
                 ArrayList<Integer> mineCoordinates = new ArrayList<>();
                 mineCoordinates.add(x);
                 mineCoordinates.add(y);
@@ -29,6 +29,17 @@ class Mine {
                 i++;
             }
         }
+    }
+
+    public boolean canPlaceMine(int x, int y, int safeX, int safeY) {
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (x + i == safeX && y + j == safeY) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public int getAdjacentMinesCount(int x, int y) {
@@ -43,7 +54,6 @@ class Mine {
         return count;
     }
 
-
     public ArrayList<ArrayList<Integer>> getMinesLocation() {
         return minesLocation;
     }
@@ -56,6 +66,4 @@ class Mine {
         }
         return false;
     }
-
-
 }
