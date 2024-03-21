@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 class Game {
@@ -69,21 +70,28 @@ class Game {
         System.out.println("1 - Medium");
         System.out.println("2 - Hard");
 
-        int choice = in.nextInt();
-        switch (choice) {
-            case 1:
-                SIDES = 16;
-                MINES = 40;
-                break;
-            case 2:
-                SIDES = 24;
-                MINES = 99;
-                break;
-            default:
-                SIDES = 9;
-                MINES = 10;
+        while (true) {
+            String input = in.nextLine(); // Read the whole line
+            switch (input.trim()) {
+                case "1":
+                    SIDES = 16;
+                    MINES = 40;
+                    return; // exit the loop
+                case "2":
+                    SIDES = 24;
+                    MINES = 99;
+                    return; // exit the loop
+                case "0":
+                    SIDES = 9;
+                    MINES = 10;
+                    return; // exit the loop
+                default:
+                    System.out.println("Invalid choice. Please select 0, 1, or 2.");
+            }
         }
     }
+
+
 
     private boolean allMinesFlagged() {
         for (ArrayList<Integer> mineLocation : mineManager.getMinesLocation()) {
@@ -98,6 +106,7 @@ class Game {
 
     public void playMineSweeper() {
         boolean gameOver = false;
+
         while (!gameOver) {
             if (movesLeft == MINES && allMinesFlagged() && !gameOver) {
                 userBoard.printBoard();
@@ -107,14 +116,42 @@ class Game {
 
             System.out.println("Moves left:" + (movesLeft - MINES));
             userBoard.printBoard();
-            System.out.println("Choose action:");
-            System.out.println("1 - Reveal");
-            System.out.println("2 - Flag/Unflag");
-            int action = in.nextInt();
 
-            System.out.println("Enter your move (row col):");
-            int myX = in.nextInt();
-            int myY = in.nextInt();
+            int action = -1;
+            do {
+                try {
+                    System.out.println("Choose action:");
+                    System.out.println("1 - Reveal");
+                    System.out.println("2 - Flag/Unflag");
+                    action = in.nextInt();
+
+                    if(action != 1 && action != 2) {
+                        System.out.println("Please select a valid action (1 or 2).");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input! Please select 1 or 2.");
+                    in.next(); // Clear the invalid input
+                }
+            } while (action != 1 && action != 2);
+
+            int myX = -1, myY = -1;
+            boolean validMove = false;
+            while (!validMove) {
+                try {
+                    System.out.println("Enter your move (row col):");
+                    myX = in.nextInt();
+                    myY = in.nextInt();
+
+                    if (isValid(myX, myY)) {
+                        validMove = true;
+                    } else {
+                        System.out.println("Invalid move! Coordinates out of bounds. Try again.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid move! Please enter numeric row and col values.");
+                    in.next(); // Clear the invalid input
+                }
+            }
 
             if (action == 2) {
                 userBoard.flagCell(myX, myY);
@@ -135,7 +172,9 @@ class Game {
 
             if (userBoard.getCell(myX, myY).equals("?")) {
                 if (realBoard.isMine(myX, myY)) {
-                    //... [Rest of the code remains unchanged] ...
+                    userBoard.printBoard();
+                    System.out.println("Oops! You stepped on a mine! Game Over.");
+                    gameOver = true;  // Add this to signify the game has ended after hitting a mine.
                 } else {
                     expand(myX, myY);
                 }
@@ -143,4 +182,5 @@ class Game {
         }
     }
 
-    }
+
+}
