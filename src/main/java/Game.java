@@ -183,4 +183,7 @@ class Game {
     }
 
 
+    public Board getUserBoard() {
+        return userBoard;
+    }
 }
