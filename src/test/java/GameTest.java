@@ -57,6 +57,18 @@ public class GameTest {
         assertEquals(9, boardSize);  // Should eventually choose Easy mode with a board size of 9.
     }
 
+    @Test
+    public void testInvalidChoiceThenMedium() {
+        String input = "3\n1\n";  // Simulate user entering "3" (invalid) followed by "0" for Easy mode.
+        InputStream in = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
+        System.setIn(in);
+
+        Game game = new Game();
+        int boardSize = game.getUserBoard().getSize();
+
+        assertEquals(16, boardSize);  // Should eventually choose Easy mode with a board size of 9.
+    }
+
 
 
 }
