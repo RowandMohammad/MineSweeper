@@ -1,0 +1,3 @@
+Game#chooseMode()V
+java.util.Scanner#nextLine()Ljava/lang/String;
+java.lang.String#trim()Ljava/lang/String;

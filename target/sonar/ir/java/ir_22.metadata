@@ -1,0 +1,4 @@
+Mine#<init>(IIII)V
+java.util.ArrayList#<init>()V
+Mine#getRandomMines(IIII)V
+java.util.ArrayList#instance-init#

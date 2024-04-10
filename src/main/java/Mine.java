@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 class Mine {
-    private ArrayList<ArrayList<Integer>> minesLocation;
+    private final ArrayList<ArrayList<Integer>> minesLocation;
 
     Mine(int sides, int mines, int safeX, int safeY) {
         minesLocation = new ArrayList<>();
@@ -12,7 +12,7 @@ class Mine {
     private void getRandomMines(int sides, int mines, int safeX, int safeY) {
         boolean[] mark = new boolean[sides * sides];
         for (int j = 0; j < mines; j++) {
-            minesLocation.add(new ArrayList<Integer>());
+            minesLocation.add(new ArrayList<>());
         }
         int i = 0;
         Random rn = new Random();
@@ -20,7 +20,7 @@ class Mine {
             int random = Math.abs(rn.nextInt()) % (sides * sides);
             int x = (random / sides) % sides;
             int y = random % sides;
-            if (mark[random] == false && canPlaceMine(x, y, safeX, safeY)) {
+            if (!mark[random] && canPlaceMine(x, y, safeX, safeY)) {
                 ArrayList<Integer> mineCoordinates = new ArrayList<>();
                 mineCoordinates.add(x);
                 mineCoordinates.add(y);
