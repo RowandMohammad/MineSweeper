@@ -20,7 +20,7 @@ class Mine {
 <span class="fc" id="L20">            int random = Math.abs(rn.nextInt()) % (sides * sides);</span>
 <span class="fc" id="L21">            int x = (random / sides) % sides;</span>
 <span class="fc" id="L22">            int y = random % sides;</span>
-<span class="fc bfc" id="L23" title="All 4 branches covered.">            if (!mark[random] &amp;&amp; canPlaceMine(x, y, safeX, safeY)) {</span>
+<span class="pc bpc" id="L23" title="1 of 4 branches missed.">            if (!mark[random] &amp;&amp; canPlaceMine(x, y, safeX, safeY)) {</span>
 <span class="fc" id="L24">                ArrayList&lt;Integer&gt; mineCoordinates = new ArrayList&lt;&gt;();</span>
 <span class="fc" id="L25">                mineCoordinates.add(x);</span>
 <span class="fc" id="L26">                mineCoordinates.add(y);</span>

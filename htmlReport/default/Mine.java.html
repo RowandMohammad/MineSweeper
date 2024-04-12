@@ -2,7 +2,7 @@
 import java.util.Random;
 
 class Mine {
-    private ArrayList&lt;ArrayList&lt;Integer&gt;&gt; minesLocation;
+    private final ArrayList&lt;ArrayList&lt;Integer&gt;&gt; minesLocation;
 
 <span class="fc" id="L7">    Mine(int sides, int mines, int safeX, int safeY) {</span>
 <span class="fc" id="L8">        minesLocation = new ArrayList&lt;&gt;();</span>
@@ -12,7 +12,7 @@ class Mine {
     private void getRandomMines(int sides, int mines, int safeX, int safeY) {
 <span class="fc" id="L13">        boolean[] mark = new boolean[sides * sides];</span>
 <span class="fc bfc" id="L14" title="All 2 branches covered.">        for (int j = 0; j &lt; mines; j++) {</span>
-<span class="fc" id="L15">            minesLocation.add(new ArrayList&lt;Integer&gt;());</span>
+<span class="fc" id="L15">            minesLocation.add(new ArrayList&lt;&gt;());</span>
         }
 <span class="fc" id="L17">        int i = 0;</span>
 <span class="fc" id="L18">        Random rn = new Random();</span>
@@ -20,7 +20,7 @@ class Mine {
 <span class="fc" id="L20">            int random = Math.abs(rn.nextInt()) % (sides * sides);</span>
 <span class="fc" id="L21">            int x = (random / sides) % sides;</span>
 <span class="fc" id="L22">            int y = random % sides;</span>
-<span class="pc bpc" id="L23" title="1 of 4 branches missed.">            if (mark[random] == false &amp;&amp; canPlaceMine(x, y, safeX, safeY)) {</span>
+<span class="pc bpc" id="L23" title="1 of 4 branches missed.">            if (!mark[random] &amp;&amp; canPlaceMine(x, y, safeX, safeY)) {</span>
 <span class="fc" id="L24">                ArrayList&lt;Integer&gt; mineCoordinates = new ArrayList&lt;&gt;();</span>
 <span class="fc" id="L25">                mineCoordinates.add(x);</span>
 <span class="fc" id="L26">                mineCoordinates.add(y);</span>
