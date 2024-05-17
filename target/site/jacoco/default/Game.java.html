@@ -139,81 +139,82 @@ class Game {
     }
 
     private int[] promptMoveCoordinates() {
-        int x, y;
+        int x;
+        int y;
         while (true) {
             try {
-<span class="nc" id="L145">                System.out.println(&quot;Enter your move (row col):&quot;);</span>
-<span class="nc" id="L146">                x = in.nextInt();</span>
-<span class="nc" id="L147">                y = in.nextInt();</span>
-<span class="nc bnc" id="L148" title="All 2 branches missed.">                if (isValid(x, y)) {</span>
-<span class="nc" id="L149">                    return new int[]{x, y};</span>
+<span class="nc" id="L146">                System.out.println(&quot;Enter your move (row col):&quot;);</span>
+<span class="nc" id="L147">                x = in.nextInt();</span>
+<span class="nc" id="L148">                y = in.nextInt();</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">                if (isValid(x, y)) {</span>
+<span class="nc" id="L150">                    return new int[]{x, y};</span>
                 } else {
-<span class="nc" id="L151">                    System.err.println(&quot;Invalid move! Coordinates out of bounds. Try again.&quot;);</span>
+<span class="nc" id="L152">                    System.err.println(&quot;Invalid move! Coordinates out of bounds. Try again.&quot;);</span>
                 }
-<span class="nc" id="L153">            } catch (InputMismatchException e) {</span>
-<span class="nc" id="L154">                System.err.println(&quot;Invalid move! Please enter numeric row and col values.&quot;);</span>
-<span class="nc" id="L155">                in.next();</span>
-<span class="nc" id="L156">            }</span>
+<span class="nc" id="L154">            } catch (InputMismatchException e) {</span>
+<span class="nc" id="L155">                System.err.println(&quot;Invalid move! Please enter numeric row and col values.&quot;);</span>
+<span class="nc" id="L156">                in.next();</span>
+<span class="nc" id="L157">            }</span>
         }
     }
 
     private void handleActionOnCell(int action, int[] move) {
-<span class="nc bnc" id="L161" title="All 2 branches missed.">        if (action == 2) {</span>
-<span class="nc" id="L162">            userBoard.flagCell(move[0], move[1]);</span>
-<span class="nc" id="L163">            return;</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        if (action == 2) {</span>
+<span class="nc" id="L163">            userBoard.flagCell(move[0], move[1]);</span>
+<span class="nc" id="L164">            return;</span>
         }
 
-<span class="nc bnc" id="L166" title="All 2 branches missed.">        if (userBoard.isFlagged(move[0], move[1])) {</span>
-<span class="nc" id="L167">            System.err.println(&quot;Cell is flagged! Unflag it first to reveal.&quot;);</span>
-<span class="nc" id="L168">            return;</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        if (userBoard.isFlagged(move[0], move[1])) {</span>
+<span class="nc" id="L168">            System.err.println(&quot;Cell is flagged! Unflag it first to reveal.&quot;);</span>
+<span class="nc" id="L169">            return;</span>
         }
 
-<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (isFirstMove) {</span>
-<span class="nc" id="L172">            isFirstMove = false;</span>
-<span class="nc" id="L173">            initializeRealBoard(move[0], move[1]);</span>
-<span class="nc" id="L174">            placeCounts();</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        if (isFirstMove) {</span>
+<span class="nc" id="L173">            isFirstMove = false;</span>
+<span class="nc" id="L174">            initializeRealBoard(move[0], move[1]);</span>
+<span class="nc" id="L175">            placeCounts();</span>
         }
-<span class="nc" id="L176">    }</span>
+<span class="nc" id="L177">    }</span>
 
     private boolean processCellReveal(int x, int y) {
-<span class="nc bnc" id="L179" title="All 2 branches missed.">        if (userBoard.getCell(x, y).equals(&quot;?&quot;)) {</span>
-<span class="nc bnc" id="L180" title="All 2 branches missed.">            if (realBoard.isMine(x, y)) {</span>
-<span class="nc" id="L181">                userBoard.printBoard();</span>
-<span class="nc" id="L182">                System.out.println(&quot;Oops! You stepped on a mine! Game Over.&quot;);</span>
-<span class="nc" id="L183">                return true;</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">        if (userBoard.getCell(x, y).equals(&quot;?&quot;)) {</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">            if (realBoard.isMine(x, y)) {</span>
+<span class="nc" id="L182">                userBoard.printBoard();</span>
+<span class="nc" id="L183">                System.out.println(&quot;Oops! You stepped on a mine! Game Over.&quot;);</span>
+<span class="nc" id="L184">                return true;</span>
             } else {
-<span class="nc" id="L185">                expand(x, y);</span>
+<span class="nc" id="L186">                expand(x, y);</span>
             }
         }
-<span class="nc" id="L188">        return false;</span>
+<span class="nc" id="L189">        return false;</span>
     }
 
     public void playMineSweeper() {
-<span class="nc" id="L192">        boolean gameOver = false;</span>
+<span class="nc" id="L193">        boolean gameOver = false;</span>
 
-<span class="nc bnc" id="L194" title="All 2 branches missed.">        while (!gameOver) {</span>
-<span class="nc bnc" id="L195" title="All 2 branches missed.">            if (checkWinCondition()) {</span>
-<span class="nc" id="L196">                break;</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">        while (!gameOver) {</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">            if (checkWinCondition()) {</span>
+<span class="nc" id="L197">                break;</span>
             }
 
-<span class="nc" id="L199">            displayMovesLeftAndBoard();</span>
+<span class="nc" id="L200">            displayMovesLeftAndBoard();</span>
 
-<span class="nc" id="L201">            int action = promptActionChoice();</span>
-<span class="nc" id="L202">            int[] move = promptMoveCoordinates();</span>
+<span class="nc" id="L202">            int action = promptActionChoice();</span>
+<span class="nc" id="L203">            int[] move = promptMoveCoordinates();</span>
 
-<span class="nc" id="L204">            handleActionOnCell(action, move);</span>
+<span class="nc" id="L205">            handleActionOnCell(action, move);</span>
 
-<span class="nc" id="L206">            gameOver = processCellReveal(move[0], move[1]);</span>
-<span class="nc" id="L207">        }</span>
-<span class="nc" id="L208">    }</span>
+<span class="nc" id="L207">            gameOver = processCellReveal(move[0], move[1]);</span>
+<span class="nc" id="L208">        }</span>
+<span class="nc" id="L209">    }</span>
 
 
     public Board getUserBoard() {
-<span class="fc" id="L212">        return userBoard;</span>
+<span class="fc" id="L213">        return userBoard;</span>
     }
 
     public Board getRealBoard() {
-<span class="nc" id="L216">        return realBoard;</span>
+<span class="nc" id="L217">        return realBoard;</span>
     }
 }
 

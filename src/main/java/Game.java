@@ -139,7 +139,8 @@ class Game {
     }
 
     private int[] promptMoveCoordinates() {
-        int x, y;
+        int x;
+        int y;
         while (true) {
             try {
                 System.out.println("Enter your move (row col):");
